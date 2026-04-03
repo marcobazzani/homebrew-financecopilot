@@ -1,5 +1,5 @@
 cask "financecopilot-nightly" do
-  version "nightly-f5ee867"
+  version "nightly-6142e7d"
   sha256 :no_check
 
   url "https://github.com/marcobazzani/FinanceCopilot/releases/download/latest/FinanceCopilot-macos.dmg"
