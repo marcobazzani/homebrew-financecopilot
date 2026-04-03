@@ -9,6 +9,11 @@ cask "financecopilot" do
 
   app "FinanceCopilot.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-cr", "#{appdir}/FinanceCopilot.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/com.example.assetManager",
   ]
