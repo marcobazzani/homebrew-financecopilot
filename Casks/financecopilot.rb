@@ -9,10 +9,8 @@ cask "financecopilot" do
 
   app "FinanceCopilot.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-crs", "#{appdir}/FinanceCopilot.app"]
-  end
+  # No postflight xattr — CI strips quarantine before DMG creation.
+  # xattr on symlinked frameworks can corrupt binaries on some machines.
 
   zap trash: [
     "~/Library/Application Support/com.example.assetManager",
