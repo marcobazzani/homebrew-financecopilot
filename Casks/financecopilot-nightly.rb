@@ -11,7 +11,7 @@ cask "financecopilot-nightly" do
 
   postflight do
     system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{appdir}/FinanceCopilot.app"]
+                   args: ["-crs", "#{appdir}/FinanceCopilot.app"]
   end
 
   zap trash: [
