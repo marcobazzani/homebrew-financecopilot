@@ -7,16 +7,9 @@ cask "financecopilot" do
   desc "Personal wealth management desktop app"
   homepage "https://github.com/marcobazzani/FinanceCopilot"
 
-  preflight do
-    # Remove quarantine BEFORE the app is moved to /Applications.
-    # Gatekeeper on some machines strips unsigned Mach-O binaries during move if quarantined.
-    system_command "/usr/bin/xattr",
-                   args: ["-drs", "com.apple.quarantine", "#{staged_path}/FinanceCopilot.app"]
-  end
-
   app "FinanceCopilot.app"
 
   zap trash: [
-    "~/Library/Application Support/com.example.assetManager",
+    "~/Library/Application Support/net.bazzani.financecopilot",
   ]
 end
