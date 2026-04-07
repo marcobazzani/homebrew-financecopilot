@@ -7,10 +7,14 @@ cask "financecopilot-nightly" do
   desc "Personal wealth management desktop app — nightly build from main"
   homepage "https://github.com/marcobazzani/FinanceCopilot"
 
-  app "FinanceCopilot.app"
+  preflight do
+    # Remove quarantine BEFORE the app is moved to /Applications.
+    # Gatekeeper on some machines strips unsigned Mach-O binaries during move if quarantined.
+    system_command "/usr/bin/xattr",
+                   args: ["-drs", "com.apple.quarantine", "#{staged_path}/FinanceCopilot.app"]
+  end
 
-  # No postflight xattr — CI strips quarantine before DMG creation.
-  # xattr on symlinked frameworks can corrupt binaries on some machines.
+  app "FinanceCopilot.app"
 
   zap trash: [
     "~/Library/Application Support/com.example.assetManager",
