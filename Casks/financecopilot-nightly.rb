@@ -9,7 +9,18 @@ cask "financecopilot-nightly" do
 
   app "FinanceCopilot.app"
 
-  zap trash: [
-    "~/Library/Application Support/net.bazzani.financecopilot",
-  ]
+  # Strip the quarantine xattr so macOS doesn't translocate the app on
+  # first launch (translocation runs quarantined ad-hoc-signed apps from
+  # a random read-only mount, which renders the Flutter window flat
+  # black). Notarization would be the canonical fix but requires a
+  # paid Apple Developer ID; clearing the flag here avoids that.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine",
+                          "#{appdir}/FinanceCopilot.app"]
+  end
+
+  # No zap stanza: the app is sandboxed and writes everything under
+  # ~/Library/Containers/net.bazzani.financecopilot/. brew zap would
+  # be a footgun against the user's own data.
 end
